@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<body>
+    @{ Html.BeginForm("Read", "User");}
+    @Html.Label("firstName:")<br>
+    @Html.TextBox("firstName")<br>
+
+    @Html.Label("lastName:")<br>
+    @Html.TextBox("lastName")<br>
+
+    @Html.Label("avatar:")<br>
+    @Html.TextBox("avatar")<br>
+
+    @Html.Label("phone:")<br>
+    @Html.TextBox("phone")<br>
+
+    @Html.Label("address:")<br>
+    @Html.TextBox("address")<br>
+
+    @Html.Label("introduction:")<br>
+    @Html.TextBox("introduction")<br>
+
+    @Html.Label("gender:")<br>
+    @Html.TextBox("gender")<br>
+
+    @Html.Label("birthday:")<br>
+    @Html.TextBox("birthday")<br>
+
+    @Html.Label("email:")<br>
+    @Html.TextBox("email")<br>
+
+    @Html.Label("password:")<br>
+    @Html.TextBox("password")<br>
+
+    <input type="submit" value="Submit">
+    @{ Html.EndForm();}
+</body>
+
+
