@@ -2,6 +2,35 @@
 @{
     ViewBag.Title = "List";
 }
+<head runat="server">
 
-<h2>List</h2>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        //$(document).ready(function () {
+        //    $.ajax({
+        //        url: '/User/List',
+        //        dataType: "json",
+        //        type: "POST",
+        //        contentType: 'application/json; charset=utf-8',
+        //        success: function (data) {
+        //            alert('abc');
+        //        },
+        //        error: function () {
+        //            alert('error');
+        //        }
+        //    });
+        //});
+    </script>
+</head>
+<body>
+    <h2>List</h2>
+    <div id="User_Result">
+       @foreach(var user in ViewBag.userList)
+       {
+           <div>@user.firstName</div>
+       }
+    </div>
+</body>
+
+
 

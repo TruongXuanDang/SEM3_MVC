@@ -25,14 +25,8 @@ namespace T1807MVC.Controllers
         [HttpGet]
         public ActionResult List()
         {
-            
-            JsonResult result = new JsonResult()
-            {
-                Data = myDbContext.Users.ToList(),
-                //Data = users,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-            return result;
+            ViewBag.userList = myDbContext.Users.ToList();
+            return View();
         }
 
         [HttpGet]
@@ -149,17 +143,23 @@ namespace T1807MVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(LoginMember member)
+        public ActionResult Login(string email, string password)
         {
-            HttpClient httpClient = new HttpClient();
-            HttpContent content = new StringContent(JsonConvert.SerializeObject(member), Encoding.UTF8, "application/json");
-            var httpRequestMessage = httpClient.PostAsync(ApiUrl.API_LOGIN, content);
-            var jsonResult = httpRequestMessage.Result.Content.ReadAsStringAsync().Result;
-            var resMember = JsonConvert.DeserializeObject<LoginMember>(jsonResult);
-            var token = resMember.token;
-            TempData["token"] = token;
-            return View("~/Views/User/Read");
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<MyDbContext, Configuration>());
 
+            for (var i = 0; i < myDbContext.Users.Count(); i++)
+            {
+                if (myDbContext.Users.ToList()[i].email == email && myDbContext.Users.ToList()[i].password == password)
+                {
+                    var entity = myDbContext.Users.Find(myDbContext.Users.ToList()[i].id);
+                    return new JsonResult()
+                    {
+                        Data = entity,
+                        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                    };
+                }
+            }
+            return null;
         }
     }
 }
