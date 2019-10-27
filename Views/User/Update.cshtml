@@ -4,4 +4,39 @@
 }
 
 <h2>Update</h2>
+<body>
+    @{ Html.BeginForm("Update", "User");}
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.Label("firstName:")<br>
+    @Html.TextBox("firstName", (string)ViewBag.user.firstName)<br>
 
+    @Html.Label("lastName:")<br>
+    @Html.TextBox("lastName", (string)ViewBag.user.lastName)<br>
+
+    @Html.Label("avatar:")<br>
+    @Html.TextBox("avatar", (string)ViewBag.user.avatar)<br>
+
+    @Html.Label("phone:")<br>
+    @Html.TextBox("phone", (string)ViewBag.user.phone)<br>
+
+    @Html.Label("address:")<br>
+    @Html.TextBox("address", (string)ViewBag.user.address)<br>
+
+    @Html.Label("introduction:")<br>
+    @Html.TextBox("introduction", (string)ViewBag.user.introduction)<br>
+
+    @Html.Label("gender:")<br>
+    @Html.TextBox("gender", (int)ViewBag.user.gender)<br>
+
+    @Html.Label("birthday:")<br>
+    @Html.TextBox("birthday", (string)ViewBag.user.birthday)<br>
+
+    @Html.Label("email:")<br>
+    @Html.TextBox("email", (string)ViewBag.user.email)<br>
+
+    @Html.Label("password:")<br>
+    @Html.TextBox("password", (string)ViewBag.user.password)<br>
+
+    <input type="submit" value="Submit">
+    @{ Html.EndForm();}
+</body>

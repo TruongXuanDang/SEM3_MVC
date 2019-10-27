@@ -33,7 +33,6 @@ namespace T1807MVC.Controllers
         public ActionResult Store()
         {
             return View();
-
         }
 
         [HttpPost]
@@ -42,16 +41,22 @@ namespace T1807MVC.Controllers
             user.id = DateTime.Now.Millisecond;
             myDbContext.Users.Add(user);
             myDbContext.SaveChanges();
-            return new JsonResult() {
-                Data = myDbContext.Users.ToList(),
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
+            return RedirectToAction("List");
 
         }
 
         [HttpGet]
-        public ActionResult Update()
+        public ActionResult Update(int id)
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<MyDbContext, Configuration>());
+
+            for (var i = 0; i < myDbContext.Users.Count(); i++)
+            {
+                if (myDbContext.Users.ToList()[i].id == id)
+                {
+                    ViewBag.user = myDbContext.Users.Find(myDbContext.Users.ToList()[i].id);
+                }
+            }
             return View();
         }
 
@@ -60,31 +65,28 @@ namespace T1807MVC.Controllers
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<MyDbContext, Configuration>());
 
-            for (var i = 0; i < myDbContext.Users.Count(); i++)
-            {
-                if (myDbContext.Users.ToList()[i].id == id)
-                {
-                    var entity = myDbContext.Users.Find(id);
-                    myDbContext.Entry(entity).CurrentValues.SetValues(updateUser);
-                    myDbContext.SaveChanges();
-                }
-            }
+            var entity = myDbContext.Users.Find(id);
+            myDbContext.Entry(entity).CurrentValues.SetValues(updateUser);
+            myDbContext.SaveChanges();
 
-            return new JsonResult()
-            {
-                Data = myDbContext.Users.ToList(),
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
+            return RedirectToAction("List");
+        }
+
+
+        [HttpDelete]
+        public ActionResult Delete(int id)
+        {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<MyDbContext, Configuration>());
+
+            var user = myDbContext.Users.Find(id);
+            myDbContext.Users.Remove(user);
+            myDbContext.SaveChanges();
+
+            return RedirectToAction("List");
         }
 
         [HttpGet]
-        public ActionResult Delete()
-        {
-            return View();
-        }
-
-        [HttpDelete]
-        public ActionResult Delete(long id)
+        public ActionResult Read(int id)
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<MyDbContext, Configuration>());
 
@@ -92,47 +94,9 @@ namespace T1807MVC.Controllers
             {
                 if (myDbContext.Users.ToList()[i].id == id)
                 {
-                    myDbContext.Users.Remove(myDbContext.Users.Find(id));
-                    myDbContext.SaveChanges();
+                    ViewBag.user = myDbContext.Users.Find(myDbContext.Users.ToList()[i].id);
                 }
             }
-
-            return new JsonResult()
-            {
-                Data = myDbContext.Users.ToList(),
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
-
-
-        // GET: User
-        [HttpGet]
-        public ActionResult Create()
-        {
-
-            return View();
-        }
-
-        [HttpPost]
-        public void Create(User user)
-        {
-            HttpClient httpClient = new HttpClient();
-            HttpContent content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-            var httpRequestMessage = httpClient.PostAsync(ApiUrl.API_REGISTER, content);
-            var stringResult = httpRequestMessage.Result.Content.ReadAsStringAsync().Result;
-        }
-
-        [HttpGet]
-        public ActionResult Read(User user)
-        {
-            users.Add(user);
-            var jsonUser = JsonConvert.SerializeObject(user);
-            Debug.WriteLine(jsonUser);
-            ViewBag.user = user;
-            return View();
-        }
-        public ActionResult Index()
-        {
             return View();
         }
 
