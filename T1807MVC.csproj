@@ -216,11 +216,11 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Info\Register.cshtml" />
-    <Content Include="Views\User\Read.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
-    <Content Include="Views\User\List.cshtml" />
-    <Content Include="Views\User\Store.cshtml" />
-    <Content Include="Views\User\Update.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
