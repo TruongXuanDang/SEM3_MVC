@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using T1807MVC.Migrations;
 using T1807MVC.Models;
@@ -20,8 +21,13 @@ namespace T1807MVC.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.userList = myDbContext.Users.ToList();
-            return View(ViewBag.userList);
+            var userList = myDbContext.Users.ToList();
+            //return new JsonResult()
+            //{
+            //    Data = myDbContext.Users.Where(m=>m.Status != - 1),
+            //    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            //};
+            return View(userList);
         }
 
         [HttpGet]
@@ -34,8 +40,15 @@ namespace T1807MVC.Controllers
         public ActionResult Create(User user)
         {
             user.id = DateTime.Now.Millisecond;
+            user.CreatedAt = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            user.Status = (int)Models.User.UserStatus.Active;
             myDbContext.Users.Add(user);
             myDbContext.SaveChanges();
+            //return new JsonResult()
+            //{
+            //    Data = user,
+            //    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            //};
             return RedirectToAction("Index");
 
         }
@@ -60,11 +73,27 @@ namespace T1807MVC.Controllers
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<MyDbContext, Configuration>());
 
-            var entity = myDbContext.Users.Find(id);
-            myDbContext.Entry(entity).CurrentValues.SetValues(updateUser);
-            myDbContext.SaveChanges();
+            //var entity = myDbContext.Users.Find(id);
+            var entity = myDbContext.Users.SingleOrDefault(m=>m.id == id);
+            entity.UpdatedAt = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            if (entity == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return Json(new { success = false, message = "Not Found"}, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                myDbContext.Entry(entity).CurrentValues.SetValues(updateUser);
+                myDbContext.SaveChanges();
 
-            return RedirectToAction("Index");
+                //return new JsonResult()
+                //{
+                //    Data = entity,
+                //    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                //};
+                return RedirectToAction("Index");
+
+            }
         }
 
 
@@ -74,8 +103,16 @@ namespace T1807MVC.Controllers
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<MyDbContext, Configuration>());
 
             var user = myDbContext.Users.Find(id);
+            user.DeletedAt = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            user.Status = (int)Models.User.UserStatus.Deleted;
             myDbContext.Users.Remove(user);
             myDbContext.SaveChanges();
+
+            //return new JsonResult()
+            //{
+            //    Data = user,
+            //    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            //};
 
             return RedirectToAction("Index");
         }

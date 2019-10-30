@@ -32,6 +32,14 @@ namespace T1807MVC.Models
         [DisplayName("Password")]
         public string password { get; set; }
 
+        public long CreatedAt { get; set; }
+        public long UpdatedAt { get; set; }
+        public long DeletedAt { get; set; }
+
+        public int DemoField { get; set; }
+        public int Status { get; set; } //1.Active | 0.Deactive | -1.Deleted
+        public enum UserStatus { Active = 1, Deactive = 0, Deleted = -1};
+
         public Dictionary<string, string> Validate()
         {
             var errors = new Dictionary<string, string>();

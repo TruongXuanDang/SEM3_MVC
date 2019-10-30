@@ -93,5 +93,5 @@ C:\Users\truong\source\repos\T1807MVC\T1807MVC\bin\System.Memory.xml
 C:\Users\truong\source\repos\T1807MVC\T1807MVC\bin\System.Numerics.Vectors.xml
 C:\Users\truong\source\repos\T1807MVC\T1807MVC\bin\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\truong\source\repos\T1807MVC\T1807MVC\bin\System.Threading.Tasks.Extensions.xml
-C:\Users\truong\source\repos\T1807MVC\T1807MVC\obj\Debug\T1807MVC.Migrations.InitialCreate.resources
+C:\Users\truong\source\repos\T1807MVC\T1807MVC\obj\Debug\T1807MVC.Migrations.CreateTable.resources
 C:\Users\truong\source\repos\T1807MVC\T1807MVC\obj\Debug\T1807MVC.csproj.GenerateResource.cache
